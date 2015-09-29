@@ -1,13 +1,21 @@
+"use strict";
+
+// global variables
 var numberOfEnemies = 5;
+var xStart = 202; // player start location x
+var yStart = 404; // player start location y
+var leftRightStep = 101; // arrow key input
+var upDownStep = 83; // arrow key input
+
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-   
+
     // initial location
     this.x = -101;
     this.y = 63 + (Math.floor(Math.random() * 3) * 83);
-    
+
     // set enemy speed
     this.speed = 1 + Math.random() * 3;
 
@@ -23,6 +31,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x = (this.x + (100 * dt * this.speed)) % 1010;
+
     // make enemies start movement off screen
     if (this.x > 700) {
         this.x = -101;
@@ -44,35 +53,35 @@ var Player = function() {
     this.sprite = 'images/char-boy.png';
 };
 // This class requires an update(), render() and
-// a handleInput() method (receive user input, allowedKeys (the key that was pressed) 
-    // and move player according to that input; cannot move off screen; reset if reaches water by moving to initial location
-    // write separate reset Player method for that).
+// a handleInput() method
+
 // update player location
-var xStart = 202;
-var yStart = 404;
 Player.prototype.update = function() {
     for (var i = 0; i < allEnemies.length; i++) {
-        if (this.x < (allEnemies[i].x + 40) && (this.x + 65) > (allEnemies[i].x) 
+        if (this.x < (allEnemies[i].x + 40) && (this.x + 65) > (allEnemies[i].x)
             && (this.y + 135) > (allEnemies[i].y + 140) && (this.y + 65) < (allEnemies[i].y + 80)) {
                 this.x = xStart;
                 this.y = yStart;
-            } 
-    }
+            }
+    };
+
     // send player back to start when reaching water
     if (this.y <= 0) {
         this.x = xStart;
         this.y = yStart;
     }
+
+    // TODO: make player appear on water before returning to start
 }
+
+// TODO: add number of lives
 
 // draw player on screen
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 // receive user input
-var leftRightStep = 101;
-var upDownStep = 83;
 Player.prototype.handleInput = function(direction) {
     if (direction === 'left' && (this.x - leftRightStep >= 0)) {
         this.x -= leftRightStep;
@@ -86,7 +95,8 @@ Player.prototype.handleInput = function(direction) {
     if (direction === 'down' && (this.y + upDownStep < 487)) {
         this.y += upDownStep;
     }
-}
+};
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [];
@@ -94,6 +104,7 @@ for (var i = 0; i < numberOfEnemies; i++) {
     var enemyObject = new Enemy();
     allEnemies.push(enemyObject);
 }
+
 // Place the player object in a variable called player
 var player = new Player();
 
