@@ -82,17 +82,25 @@ Player.prototype.render = function() {
 };
 
 // receive user input
-Player.prototype.handleInput = function(direction) {
-    if (direction === 'left' && (this.x - leftRightStep >= 0)) {
+Player.prototype.handleInput = function(key) {
+
+    // keep player from going off left of screen
+    if (key === 'left' && (this.x - leftRightStep >= 0)) {
         this.x -= leftRightStep;
     }
-    if (direction === 'up' && (this.y - upDownStep >= -11)) {
+
+    // keep player from going off top of screen
+    if (key === 'up' && (this.y - upDownStep >= -11)) {
         this.y -= upDownStep;
     }
-    if (direction === 'right' && (this.x + leftRightStep < 505)) {
+
+    // keep player from going off right of screen
+    if (key === 'right' && (this.x + leftRightStep < 505)) {
         this.x += leftRightStep;
     }
-    if (direction === 'down' && (this.y + upDownStep < 487)) {
+
+    // keep player from going off bottom of screen
+    if (key === 'down' && (this.y + upDownStep < 487)) {
         this.y += upDownStep;
     }
 };
